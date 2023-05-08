@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="border: 2px solid black;padding: 10px;">
+        <div data-origin="XV33233" data-now="U2FsdGVkX19YCTT5erGX2S7lDy1LY325JwRZXHLefzk=" style="display: none"
+     class="cryptoText">
+            U2FsdGVkX184cvZYgKlIx0x0IBdt0ECrcMGZUHuJ0/U=
+        </div>
+        请输入密码查看隐藏内容：<input type="password">
+        <input type="submit" onclick="crypto(this)"></button>
+    </div>
+    <script>
+        function crypto(sub) {
+        const e = sub.parentNode.firstElementChild; //密文部分
+        const key = sub.previousElementSibling.value; //用户输入的密钥
+        const origin = e.getAttribute("data-origin"); //试探明文
+        const now = e.getAttribute("data-now"); //试探密文
+        const res = CryptoJS.AES.decrypt(now, key).toString(CryptoJS.enc.Utf8);
+        if (res == origin) {
+        //如果密钥正确
+        const t = e.innerHTML.replace(/\s/g, "");
+        sub.parentNode.innerHTML = CryptoJS.AES.decrypt(t, key).toString(
+        CryptoJS.enc.Utf8
+        );
+        } else {
+        alert("密码错误！");
+        }
+        }
+    </script>
+    <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/crypto-js.min.js"
+  ></script>
+</body>
+</html>
